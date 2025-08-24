@@ -54,7 +54,7 @@ const Index = () => {
             <div className="w-16 h-px bg-gradient-romantic"></div>
           </div>
           <p className="text-xs text-muted-foreground/70">
-            October 16th, 2024 • A day to remember forever
+            October 16th • A day to remember forever
           </p>
         </div>
       </div>
