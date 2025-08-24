@@ -93,7 +93,12 @@
 @layer components {
   /* Romantic Button Variants */
   .btn-romantic {
-    @apply bg-gradient-to-r from-primary to-accent text-primary-foreground px-8 py-4 rounded-full font-medium shadow-romantic hover:shadow-glow transition-all duration-300 hover:scale-105;
+    @apply bg-gradient-to-r from-primary to-accent text-primary-foreground px-8 py-4 rounded-full font-medium shadow-lg transition-all duration-300 hover:scale-105;
+    box-shadow: 0 20px 40px -12px hsl(var(--primary) / 0.25);
+  }
+
+  .btn-romantic:hover {
+    box-shadow: 0 0 50px hsl(var(--primary-glow) / 0.4);
   }
 
   .btn-soft {
@@ -101,12 +106,22 @@
   }
 
   .btn-gold {
-    @apply bg-gradient-to-r from-gold to-primary-glow text-gold-foreground px-8 py-4 rounded-full font-semibold shadow-soft hover:shadow-romantic transition-all duration-300 hover:scale-105;
+    @apply bg-gradient-to-r from-gold to-primary-glow text-gold-foreground px-8 py-4 rounded-full font-semibold shadow-lg transition-all duration-300 hover:scale-105;
+    box-shadow: 0 8px 32px -8px hsl(var(--romantic) / 0.15);
+  }
+
+  .btn-gold:hover {
+    box-shadow: 0 20px 40px -12px hsl(var(--primary) / 0.25);
   }
 
   /* Romantic Card Styles */
   .card-romantic {
-    @apply bg-card/80 backdrop-blur-sm border border-romantic/20 rounded-3xl p-8 shadow-soft hover:shadow-romantic transition-all duration-300;
+    @apply bg-card/80 backdrop-blur-sm border border-romantic/20 rounded-3xl p-8 shadow-lg transition-all duration-300;
+    box-shadow: 0 8px 32px -8px hsl(var(--romantic) / 0.15);
+  }
+
+  .card-romantic:hover {
+    box-shadow: 0 20px 40px -12px hsl(var(--primary) / 0.25);
   }
 
   /* Floating Animation */
@@ -126,7 +141,8 @@
 
   /* Romantic Glow */
   .romantic-glow {
-    @apply shadow-glow;
+    @apply shadow-lg;
+    box-shadow: 0 0 50px hsl(var(--primary-glow) / 0.4);
     animation: romanticGlow 4s ease-in-out infinite alternate;
   }
 
