@@ -134,6 +134,26 @@
     animation-delay: 1.5s;
   }
 
+  /* New Float Animation for Hearts */
+  .animate-float {
+    animation: float 4s ease-in-out infinite;
+  }
+
+  @keyframes float {
+    0%, 100% {
+      transform: translateY(0px) rotate(0deg);
+    }
+    25% {
+      transform: translateY(-10px) rotate(1deg);
+    }
+    50% {
+      transform: translateY(-20px) rotate(0deg);
+    }
+    75% {
+      transform: translateY(-10px) rotate(-1deg);
+    }
+  }
+
   /* Heart Pulse Animation */
   .heart-pulse {
     animation: heartPulse 2s ease-in-out infinite;
