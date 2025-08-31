@@ -207,4 +207,6 @@ const Countdown = memo(({ onComplete }: CountdownProps) => {
   );
 });
 
+Countdown.displayName = 'Countdown';
+
 export default Countdown;
