@@ -14,15 +14,6 @@ interface ImageCollageProps {
 const ImageCollage = memo(({ images }: ImageCollageProps) => {
   const [visibleImages, setVisibleImages] = useState<number[]>([]);
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [isMobile, setIsMobile] = useState(false);
-
-  // Safe mobile detection
-  useEffect(() => {
-    const checkMobile = () => setIsMobile(window.innerWidth < 768);
-    checkMobile();
-    window.addEventListener('resize', checkMobile);
-    return () => window.removeEventListener('resize', checkMobile);
-  }, []);
 
   const updateVisibleImages = useCallback(() => {
     if (images.length === 0) return;
@@ -47,7 +38,7 @@ const ImageCollage = memo(({ images }: ImageCollageProps) => {
 
   // Memoized placeholder cards
   const placeholderCards = useMemo(() => 
-    Array.from({ length: isMobile ? 4 : 6 }).map((_, index) => (
+    Array.from({ length: window.innerWidth < 768 ? 4 : 6 }).map((_, index) => (
       <Card 
         key={index}
         className="aspect-square bg-gradient-to-br from-romantic/20 to-primary/20 border-romantic/30 rounded-2xl flex items-center justify-center hover:scale-105 transition-all duration-300"
@@ -61,7 +52,7 @@ const ImageCollage = memo(({ images }: ImageCollageProps) => {
           </p>
         </div>
       </Card>
-    )), [isMobile]
+    )), []
   );
 
   // Memoized hover hearts
