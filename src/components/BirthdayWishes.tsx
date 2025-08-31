@@ -1,6 +1,6 @@
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { useState, useCallback, memo, useMemo } from 'react';
+import { useState } from 'react';
 import ImageCollage from './ImageCollage';
 
 const wishes = [
@@ -10,7 +10,7 @@ const wishes = [
     emoji: "🌹"
   },
   {
-    title: "You Are My Everything", 
+    title: "You Are My Everything",
     message: "On your special day, I want you to know how much you mean to me. Your smile brightens my darkest days, your laugh is my favorite melody, and your love is my greatest blessing. Here's to many more birthdays together! 🎂",
     emoji: "✨"
   },
@@ -26,7 +26,7 @@ const wishes = [
   }
 ];
 
-const BirthdayWishes = memo(() => {
+const BirthdayWishes = () => {
   const [currentWish, setCurrentWish] = useState(0);
 
   // Example images - replace these with your actual imported images
@@ -37,55 +37,34 @@ const BirthdayWishes = memo(() => {
     // For now, we'll show placeholders
   ];
 
-  const nextWish = useCallback(() => {
+  const nextWish = () => {
     setCurrentWish((prev) => (prev + 1) % wishes.length);
-  }, []);
+  };
 
-  const prevWish = useCallback(() => {
+  const prevWish = () => {
     setCurrentWish((prev) => (prev - 1 + wishes.length) % wishes.length);
-  }, []);
-
-  // Memoized sparkles for performance
-  const sparkles = useMemo(() => 
-    Array.from({ length: window.innerWidth < 768 ? 6 : 8 }).map((_, i) => ({
-      id: i,
-      left: 10 + i * 12,
-      top: 15 + i * 10,
-      delay: i * 0.3
-    })), []
-  );
-
-  // Memoized heart particles
-  const heartParticles = useMemo(() =>
-    Array.from({ length: window.innerWidth < 768 ? 6 : 10 }).map((_, i) => ({
-      id: i,
-      left: 10 + i * 8,
-      top: 10 + (i % 4) * 20,
-      delay: i * 0.2,
-      duration: 2.5 + Math.random() * 1.5
-    })), []
-  );
+  };
 
   return (
-    <div className="space-y-8 sm:space-y-12 animate-fade-in-up px-4">
-      <div className="text-center space-y-3 sm:space-y-4">
-        <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-playfair font-bold text-gradient leading-tight">
+    <div className="space-y-12 animate-fade-in-up">
+      <div className="text-center space-y-4">
+        <h2 className="text-4xl md:text-6xl lg:text-7xl font-playfair font-bold text-gradient">
           Happy Birthday, Beautiful! 
         </h2>
-        <div className="text-xl sm:text-2xl md:text-3xl text-romantic mb-3 sm:mb-4">
+        <div className="text-2xl md:text-3xl text-romantic mb-4">
           🎉 October 16th - Your Special Day 🎉
         </div>
-        <div className="w-20 sm:w-32 h-1 bg-gradient-romantic rounded-full mx-auto"></div>
+        <div className="w-32 h-1 bg-gradient-romantic rounded-full mx-auto"></div>
       </div>
 
       {/* Image Collage Section */}
       <ImageCollage images={collageImages} />
 
-      <div className="text-center space-y-3 sm:space-y-4">
-        <h3 className="text-2xl sm:text-3xl md:text-4xl font-playfair font-bold text-gradient">
+      <div className="text-center space-y-4">
+        <h3 className="text-3xl md:text-4xl font-playfair font-bold text-gradient">
           Birthday Wishes
         </h3>
-        <p className="text-base sm:text-lg md:text-xl text-muted-foreground">
+        <p className="text-lg md:text-xl text-muted-foreground">
           From my heart to yours
         </p>
       </div>
@@ -94,16 +73,16 @@ const BirthdayWishes = memo(() => {
         {/* Magical background effect */}
         <div className="absolute inset-0 bg-gradient-to-br from-romantic/5 to-primary/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
         
-        {/* Floating sparkles - reduced for mobile */}
-        <div className="absolute inset-0 pointer-events-none hidden sm:block">
-          {sparkles.map((sparkle) => (
+        {/* Floating sparkles */}
+        <div className="absolute inset-0 pointer-events-none">
+          {Array.from({ length: 8 }).map((_, sparkleIndex) => (
             <div
-              key={sparkle.id}
-              className="absolute opacity-0 group-hover:opacity-100 transition-all duration-500 text-romantic animate-pulse text-lg md:text-xl"
+              key={sparkleIndex}
+              className="absolute opacity-0 group-hover:opacity-100 transition-all duration-500 text-romantic animate-pulse text-xl"
               style={{
-                left: `${sparkle.left}%`,
-                top: `${sparkle.top}%`,
-                animationDelay: `${sparkle.delay}s`
+                left: `${10 + sparkleIndex * 12}%`,
+                top: `${15 + sparkleIndex * 10}%`,
+                animationDelay: `${sparkleIndex * 0.3}s`
               }}
             >
               ✨
@@ -111,87 +90,83 @@ const BirthdayWishes = memo(() => {
           ))}
         </div>
 
-        <div className="absolute top-3 right-3 sm:top-4 sm:right-4 text-3xl sm:text-4xl md:text-5xl opacity-20 group-hover:opacity-40 transition-opacity duration-300 animate-bounce">
+        <div className="absolute top-4 right-4 text-5xl opacity-20 group-hover:opacity-40 transition-opacity duration-300 animate-bounce">
           {wishes[currentWish].emoji}
         </div>
         
-        <div className="p-4 sm:p-6 md:p-8 space-y-4 sm:space-y-6 relative z-10">
+        <div className="space-y-6 relative z-10">
           <div className="text-center">
-            <h3 className="text-xl sm:text-2xl md:text-3xl font-playfair font-semibold text-romantic mb-3 sm:mb-4 leading-tight">
+            <h3 className="text-2xl md:text-3xl font-playfair font-semibold text-romantic mb-4">
               {wishes[currentWish].title}
             </h3>
-            <div className="w-16 sm:w-20 h-1 bg-gradient-romantic rounded-full mx-auto"></div>
+            <div className="w-20 h-1 bg-gradient-romantic rounded-full mx-auto"></div>
           </div>
 
-          <p className="text-sm sm:text-base md:text-lg leading-relaxed text-foreground/90 text-center max-w-3xl mx-auto">
+          <p className="text-base md:text-lg leading-relaxed text-foreground/90 text-center px-4">
             {wishes[currentWish].message}
           </p>
 
-          <div className="flex flex-col sm:flex-row justify-center items-center gap-4 sm:gap-6 pt-2 sm:pt-4">
-            <div className="flex items-center space-x-4">
-              <Button 
-                onClick={prevWish}
-                variant="outline" 
-                size="sm"
-                className="btn-soft hover:scale-105 transition-transform duration-200 text-xs sm:text-sm px-3 sm:px-4"
-              >
-                Previous
-              </Button>
-              
-              <Button 
-                onClick={nextWish}
-                variant="outline" 
-                size="sm" 
-                className="btn-soft hover:scale-105 transition-transform duration-200 text-xs sm:text-sm px-3 sm:px-4"
-              >
-                Next
-              </Button>
-            </div>
+          <div className="flex justify-center items-center space-x-4 pt-4">
+            <Button 
+              onClick={prevWish}
+              variant="outline" 
+              size="sm"
+              className="btn-soft hover:scale-105 transition-transform duration-200"
+            >
+              Previous
+            </Button>
             
             <div className="flex space-x-2">
               {wishes.map((_, index) => (
-                <button
+                <div
                   key={index}
-                  onClick={() => setCurrentWish(index)}
-                  className={`w-2 h-2 rounded-full transition-all duration-300 touch-manipulation ${
+                  className={`w-2 h-2 rounded-full transition-all duration-300 ${
                     index === currentWish 
                       ? 'bg-primary scale-125 animate-pulse' 
                       : 'bg-muted-foreground/30 hover:bg-muted-foreground/50'
                   }`}
-                  aria-label={`Go to wish ${index + 1}`}
                 />
               ))}
             </div>
+
+            <Button 
+              onClick={nextWish}
+              variant="outline" 
+              size="sm" 
+              className="btn-soft hover:scale-105 transition-transform duration-200"
+            >
+              Next
+            </Button>
           </div>
         </div>
       </Card>
 
       <div className="text-center">
-        <Card className="card-romantic inline-block p-6 sm:p-8 relative group overflow-hidden max-w-md mx-auto">
+        <Card className="card-romantic inline-block p-8 relative group overflow-hidden">
           {/* Romantic glow effect */}
           <div className="absolute inset-0 bg-gradient-to-br from-romantic/10 to-primary/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-3xl"></div>
           
           <div className="relative z-10">
-            <div className="text-3xl sm:text-4xl mb-3 sm:mb-4 animate-pulse group-hover:scale-110 transition-transform duration-300">💕</div>
-            <p className="text-lg sm:text-xl font-playfair text-gradient mb-3 sm:mb-4 leading-tight">
+            <div className="text-4xl mb-4 animate-pulse group-hover:scale-110 transition-transform duration-300">💕</div>
+            <p className="text-xl font-playfair text-gradient mb-4">
               "Every moment with you is a gift"
             </p>
-            <p className="text-sm sm:text-base text-muted-foreground">
+            <p className="text-muted-foreground">
               With all my love, forever and always ✨
             </p>
           </div>
           
-          {/* Heart particles - reduced for mobile */}
+          {/* Heart particles */}
           <div className="absolute inset-0 pointer-events-none">
-            {heartParticles.map((particle) => (
+            {Array.from({ length: 10 }).map((_, heartIndex) => (
               <div
-                key={particle.id}
-                className="absolute opacity-0 group-hover:opacity-100 transition-all duration-1000 text-romantic/60 animate-float text-sm sm:text-base md:text-lg"
+                key={heartIndex}
+                className="absolute opacity-0 group-hover:opacity-100 transition-all duration-1000 text-romantic/60 animate-float text-lg"
                 style={{
-                  left: `${particle.left}%`,
-                  top: `${particle.top}%`,
-                  animationDelay: `${particle.delay}s`,
-                  animationDuration: `${particle.duration}s`
+                  left: `${10 + heartIndex * 8}%`,
+                  top: `${10 + (heartIndex % 4) * 20}%`,
+                  animationDelay: `${heartIndex * 0.2}s`,
+                  animationDuration: `${2.5 + Math.random() * 1.5}s`
                 }}
               >
                 💖
@@ -202,8 +177,6 @@ const BirthdayWishes = memo(() => {
       </div>
     </div>
   );
-});
-
-BirthdayWishes.displayName = 'BirthdayWishes';
+};
 
 export default BirthdayWishes;
