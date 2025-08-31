@@ -9,11 +9,15 @@ interface Heart {
 
 const FloatingHearts = memo(() => {
   const [hearts, setHearts] = useState<Heart[]>([]);
+  const [isMobile, setIsMobile] = useState(false);
 
-  // Detect mobile for performance optimization
-  const isMobile = useMemo(() => 
-    typeof window !== 'undefined' && window.innerWidth < 768, []
-  );
+  // Safe mobile detection
+  useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth < 768);
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
 
   // Reduced hearts count for mobile
   const heartsCount = isMobile ? 4 : 8;

@@ -26,6 +26,15 @@ const Countdown = memo(({ onComplete }: CountdownProps) => {
   const [timeLeft, setTimeLeft] = useState<TimeLeft>({ days: 0, hours: 0, minutes: 0, seconds: 0 });
   const [isComplete, setIsComplete] = useState(false);
   const [pulseKey, setPulseKey] = useState(0);
+  const [isMobile, setIsMobile] = useState(false);
+
+  // Safe mobile detection
+  useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth < 768);
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
 
   const calculateTimeLeft = useCallback((): TimeLeft => {
     const now = new Date().getTime();
@@ -68,14 +77,24 @@ const Countdown = memo(({ onComplete }: CountdownProps) => {
 
   // Memoized celebration particles for better performance
   const celebrationParticles = useMemo(() => 
-    Array.from({ length: window.innerWidth < 768 ? 15 : 25 }).map((_, i) => ({
+    Array.from({ length: isMobile ? 15 : 25 }).map((_, i) => ({
       id: i,
       emoji: CELEBRATION_EMOJIS[Math.floor(Math.random() * CELEBRATION_EMOJIS.length)],
       left: Math.random() * 100,
       top: Math.random() * 100,
       delay: Math.random() * 3,
       duration: 1.5 + Math.random() * 2
-    })), [isComplete]
+    })), [isComplete, isMobile]
+  );
+
+  // Memoized sparkles for better performance
+  const sparkles = useMemo(() => 
+    Array.from({ length: isMobile ? 8 : 15 }).map((_, i) => ({
+      id: i,
+      left: 5 + (i * (isMobile ? 12 : 6)),
+      top: 15 + Math.sin(i) * 40,
+      delay: i * 0.4
+    })), [isMobile]
   );
 
   if (isComplete) {
@@ -110,16 +129,6 @@ const Countdown = memo(({ onComplete }: CountdownProps) => {
       </div>
     );
   }
-
-  // Memoized sparkles for better performance
-  const sparkles = useMemo(() => 
-    Array.from({ length: window.innerWidth < 768 ? 8 : 15 }).map((_, i) => ({
-      id: i,
-      left: 5 + (i * (window.innerWidth < 768 ? 12 : 6)),
-      top: 15 + Math.sin(i) * 40,
-      delay: i * 0.4
-    })), []
-  );
 
   return (
     <div className="text-center space-y-6 sm:space-y-8">

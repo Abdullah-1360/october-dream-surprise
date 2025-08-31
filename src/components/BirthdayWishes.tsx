@@ -1,6 +1,6 @@
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { useState, useCallback, memo, useMemo } from 'react';
+import { useState, useCallback, memo, useMemo, useEffect } from 'react';
 import ImageCollage from './ImageCollage';
 
 const wishes = [
@@ -28,6 +28,15 @@ const wishes = [
 
 const BirthdayWishes = memo(() => {
   const [currentWish, setCurrentWish] = useState(0);
+  const [isMobile, setIsMobile] = useState(false);
+
+  // Safe mobile detection
+  useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth < 768);
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
 
   // Example images - replace these with your actual imported images
   const collageImages = [
@@ -47,23 +56,23 @@ const BirthdayWishes = memo(() => {
 
   // Memoized sparkles for performance
   const sparkles = useMemo(() => 
-    Array.from({ length: window.innerWidth < 768 ? 6 : 8 }).map((_, i) => ({
+    Array.from({ length: isMobile ? 6 : 8 }).map((_, i) => ({
       id: i,
       left: 10 + i * 12,
       top: 15 + i * 10,
       delay: i * 0.3
-    })), []
+    })), [isMobile]
   );
 
   // Memoized heart particles
   const heartParticles = useMemo(() =>
-    Array.from({ length: window.innerWidth < 768 ? 6 : 10 }).map((_, i) => ({
+    Array.from({ length: isMobile ? 6 : 10 }).map((_, i) => ({
       id: i,
       left: 10 + i * 8,
       top: 10 + (i % 4) * 20,
       delay: i * 0.2,
       duration: 2.5 + Math.random() * 1.5
-    })), []
+    })), [isMobile]
   );
 
   return (
