@@ -220,3 +220,57 @@
 .animate-fade-in-up {
   animation: fadeInUp 0.8s ease-out forwards;
 }
+
+/* Enhanced mobile-first styles with better performance */
+@media (max-width: 767px) {
+  .card-romantic {
+    @apply p-3 rounded-2xl;
+  }
+  
+  .text-gradient {
+    background-size: 200% 200%;
+    animation: gradient-shift 3s ease infinite;
+  }
+  
+  .floating-heart {
+    animation-duration: 5s !important;
+  }
+  
+  .heart-pulse {
+    animation-duration: 1.5s !important;
+  }
+}
+
+/* Improved touch targets for mobile */
+.touch-manipulation {
+  touch-action: manipulation;
+}
+
+/* Better performance animations */
+.animate-optimized {
+  will-change: transform, opacity;
+}
+
+/* Gradient animation for mobile text */
+@keyframes gradient-shift {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+
+/* Prefers reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .animate-pulse,
+  .animate-bounce,
+  .animate-float,
+  .floating-heart,
+  .heart-pulse,
+  .romantic-glow {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+  }
+  
+  .hover\:scale-105:hover,
+  .hover\:scale-110:hover {
+    transform: scale(1) !important;
+  }
+}
