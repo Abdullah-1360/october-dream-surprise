@@ -32,12 +32,11 @@ const Index = () => {
           </p>
         </div>
 
-        <div className="max-w-6xl mx-auto">
-          {!showWishes ? (
-            <div className="animate-fade-in-up">
-              <Countdown onComplete={handleCountdownComplete} />
-            </div>
-          ) : (
+        <div className="max-w-6xl mx-auto space-y-16">
+          <div className="animate-fade-in-up">
+            <Countdown onComplete={handleCountdownComplete} />
+          </div>
+          {showWishes && (
             <div className="animate-fade-in-up">
               <BirthdayWishes />
             </div>
